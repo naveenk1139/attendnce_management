@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
+home.html
 
-<h1>Welcome to Home Page</h1>
+{% extends 'Base.html' %}
 
-<p>This is the main page of the website.</p>
-
-<a href="about.html">About</a><br>
-<a href="login.html">Login</a><br>
-<a href="signup.html">Signup</a>
-
-</body>
-</html>
+{% block body %}
+    <h1>Welcome to the Attttendance Management System</h1>
+    <p>This is the home page of our application. Here you can find information about our system and its features.</p>
+{% endblock %}
