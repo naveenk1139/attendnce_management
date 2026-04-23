@@ -1,12 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from models import User, db
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False    
-
-session = {}
+app.secret_key = 'your_secret_key_here'  # Add a secret key for sessions
 
 db.init_app(app)
 
@@ -16,12 +15,14 @@ with app.app_context():
 
 @app.route("/")
 def hello_world():
-    return render_template("home.html")
+    user = User.query.get(session.get("user_id")) if session.get("user_id") else None
+    return render_template("home.html", user=user)
 
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    user = User.query.get(session.get("user_id")) if session.get("user_id") else None
+    return render_template("about.html", user=user)
 
 
 @app.route("/login",methods=["POST","GET"])
@@ -31,7 +32,7 @@ def login():
         password = request.form.get("password")
         user=User.query.filter_by(email=email,password=password).first()
         if user:
-            session["user_id"]=user
+            session["user_id"]=user.id
             return render_template("home.html",user=user)
         else:
             return render_template("login.html")
@@ -62,8 +63,8 @@ def signup():
 
 @app.route("/logout/<int:user_id>")
 def logout(user_id):
-    session.pop(user_id,None)
-    return render_template("home.html",user=None)
+    session.pop("user_id", None)
+    return render_template("home.html", user=None)
 
 
 if __name__ == "__main__":

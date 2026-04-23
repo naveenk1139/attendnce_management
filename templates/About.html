@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>About</title>
-</head>
-<body>
+{% extends 'Base.html' %}
 
+{% block body %}
 <h1>About Us</h1>
 
 <p>This is a simple website created using HTML.</p>
@@ -13,7 +9,5 @@
 
 <p>Our goal is to make learning easy and simple.</p>
 
-<a href="home.html">Go to Home</a>
-
-</body>
-</html>
+<a href="/">Go to Home</a>
+{% endblock %}
